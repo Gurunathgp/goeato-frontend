@@ -1,38 +1,211 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .App {
+  font-family: 'Merriweather', serif;
+  background: linear-gradient(135deg, #f4f1ea 0%, #e0d5c8 100%), url('https://www.transparenttextures.com/patterns/cream-paper.png'); /* Warm gradient + parchment texture */
+  min-height: 100vh;
+  color: #3e2d23;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(to right, #d35400, #e67e22), url('https://www.transparenttextures.com/patterns/dark-wood.png'); /* Darker gradient + wood texture */
+  color: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Cinzel', serif;
+  color: #fff3e6;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 30px;
+  font-size: 18px;
+  font-family: 'Merriweather', serif;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #ffdab9;
+  transform: scale(1.05);
+}
+
+.home {
+  padding: 120px 20px 40px 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.home h1 {
+  font-size: 48px;
+  color: #3e2d23;
+  margin-top: 25px;
+  margin-bottom: 40px;
+  background: linear-gradient(to right, #d35400, #e67e22);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.banner-img {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  margin: 0 auto 30px auto;
+  display: block;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  border: 3px solid #e67e22;
+  transition: transform 0.3s ease;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.banner-img:hover {
+  transform: scale(1.02);
+}
+
+.food-section {
+  margin: 40px 0;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.95), url('https://www.transparenttextures.com/patterns/light-paper-fibers.png'); /* Slight paper texture */
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.food-section h2 {
+  font-size: 32px;
+  color: #3e2d23;
+  margin-bottom: 20px;
+  font-style: italic;
+  font-family: 'Merriweather', serif;
+  letter-spacing: 0.5px;
+}
+
+.food-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.food-card {
+  width: 260px;
+  padding: 25px;
+  border: none;
+  border-radius: 15px;
+  text-align: center;
+  background: linear-gradient(145deg, #fff5e6, #f4e1c7), url('https://www.transparenttextures.com/patterns/soft-wallpaper.png'); /* Creamy gradient + subtle texture */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.food-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.food-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #e67e22;
+}
+
+.food-card h3 {
+  font-size: 24px;
+  margin: 15px 0;
+  color: #3e2d23;
+  font-weight: 500;
+  font-family: 'Cinzel', serif;
+}
+
+.food-card p {
+  font-size: 16px;
+  color: #5a4a3a;
+  font-family: 'Merriweather', serif;
+}
+
+.add-btn {
+  margin-top: 15px;
+  padding: 12px 25px;
+  background: linear-gradient(to right, #d35400, #e67e22);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Merriweather', serif;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.add-btn:hover {
+  background: linear-gradient(to right, #e67e22, #d35400);
+  transform: scale(1.05);
+}
+
+.auth-page {
+  max-width: 500px;
+  margin: 100px auto;
+  padding: 35px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.97), url('https://www.transparenttextures.com/patterns/light-paper-fibers.png'); /* Paper texture */
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.auth-page h2 {
+  margin-bottom: 30px;
+  color: #3e2d23;
+  font-size: 32px;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+}
+
+.auth-page form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 20px;
+}
+
+.auth-page input {
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #d4c5b8;
+  border-radius: 10px;
+  background: #fff5e6;
+  font-family: 'Merriweather', serif;
+}
+
+.auth-page button {
+  padding: 14px;
+  background: linear-gradient(to right, #d35400, #e67e22);
   color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Merriweather', serif;
+  transition: background 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.auth-page button:hover {
+  background: linear-gradient(to right, #e67e22, #d35400);
 }
