@@ -7,5 +7,8 @@ This repository contains the frontend code for the GoEato food delivery applicat
 2. Install: `npm install`
 3. Run: `npm start`
 
-## Submission
-Submitted as part of [your project details].
+## Admin Access
+To access the admin dashboard, use the following credentials:
+- **Email**: `admin@goeato.com`
+- **Password**: `admin12345`
+
