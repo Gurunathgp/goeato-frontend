@@ -1,18 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import FoodCard from '../components/FoodCard';
 
 const Home = () => {
-  const vegItems = [
-    { id: 1, name: 'Paneer Tikka', price: 150, img: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGFuZWVyJTIwdGlra2F8ZW58MHx8MHx8fDA%3D' },
-    { id: 2, name: 'Veg Biryani', price: 120, img: 'https://media.istockphoto.com/id/495184588/photo/indian-pulav-vegetable-rice-veg-biryani-basmati-rice.webp?a=1&b=1&s=612x612&w=0&k=20&c=74nnoEfGLMtHrSCvLd8juywI5Ztlm_9iT00-OCIDqLg=' },
-    { id: 5, name: 'Dosa', price: 80, img: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRvc2F8ZW58MHx8MHx8fDA%3D' },
-    { id: 6, name: 'Idli', price: 60, img: 'https://media.istockphoto.com/id/638506124/photo/idli-with-coconut-chutney-and-sambhar.webp?a=1&b=1&s=612x612&w=0&k=20&c=d8gjXysHyh4bNkFoFxcdR0TvZVbp7tFaWNvIiFaBIBQ=' },
-  ];
+  const [vegItems, setVegItems] = useState([]);
+  const [nonVegItems, setNonVegItems] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [sortOrder, setSortOrder] = useState('default');
 
-  const nonVegItems = [
-    { id: 3, name: 'Chicken Curry', price: 200, img: 'https://plus.unsplash.com/premium_photo-1723708871094-2c02cf5f5394?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2hpY2tlbiUyMGN1cnJ5fGVufDB8fDB8fHww' },
-    { id: 4, name: 'Fish Fry', price: 180, img: 'https://images.unsplash.com/photo-1565708409704-dd6416e94c20?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D' },
-  ];
+  useEffect(() => {
+    const fetchFoodItems = async () => {
+      try {
+        console.log('Starting fetch for food items...');
+        const response = await axios.get('http://localhost:5000/api/food-items');
+        console.log('Fetched data:', response.data);
+        const items = response.data;
+        if (!Array.isArray(items)) {
+          throw new Error('Fetched data is not an array');
+        }
+        setVegItems(items.filter(item => item.category === 'veg'));
+        setNonVegItems(items.filter(item => item.category === 'non-veg'));
+      } catch (err) {
+        console.error('Error fetching food items:', err);
+        setError('Failed to fetch food items. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFoodItems();
+  }, []);
+
+  const sortItems = (items) => {
+    if (sortOrder === 'low-to-high') {
+      return [...items].sort((a, b) => a.price - b.price);
+    } else if (sortOrder === 'high-to-low') {
+      return [...items].sort((a, b) => b.price - a.price);
+    }
+    return items;
+  };
+
+  const filteredVegItems = sortItems(
+    vegItems.filter(item =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (categoryFilter === 'all' || categoryFilter === 'veg')
+    )
+  );
+
+  const filteredNonVegItems = sortItems(
+    nonVegItems.filter(item =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (categoryFilter === 'all' || categoryFilter === 'non-veg')
+    )
+  );
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
 
   return (
     <div className="home">
@@ -20,23 +70,59 @@ const Home = () => {
         src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092"
         alt="Food Banner"
         className="banner-img"
+        loading="lazy"
       />
       <h1>Order from GoEato</h1>
+      <div className="filters">
+        <input
+          type="text"
+          placeholder="Search food items..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-bar"
+        />
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="category-filter"
+        >
+          <option value="all">All Categories</option>
+          <option value="veg">Veg</option>
+          <option value="non-veg">Non-Veg</option>
+        </select>
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+          className="sort-filter"
+        >
+          <option value="default">Sort by: Default</option>
+          <option value="low-to-high">Price: Low to High</option>
+          <option value="high-to-low">Price: High to Low</option>
+        </select>
+      </div>
       <div className="food-section">
         <h2>Veg Delights</h2>
-        <div className="food-container">
-          {vegItems.map(item => (
-            <FoodCard key={item.id} item={item} />
-          ))}
-        </div>
+        {filteredVegItems.length === 0 ? (
+          <p>No veg items available.</p>
+        ) : (
+          <div className="food-container">
+            {filteredVegItems.map(item => (
+              <FoodCard key={item._id} item={item} />
+            ))}
+          </div>
+        )}
       </div>
       <div className="food-section">
         <h2>Non-Veg Treats</h2>
-        <div className="food-container">
-          {nonVegItems.map(item => (
-            <FoodCard key={item.id} item={item} />
-          ))}
-        </div>
+        {filteredNonVegItems.length === 0 ? (
+          <p>No non-veg items available.</p>
+        ) : (
+          <div className="food-container">
+            {filteredNonVegItems.map(item => (
+              <FoodCard key={item._id} item={item} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
